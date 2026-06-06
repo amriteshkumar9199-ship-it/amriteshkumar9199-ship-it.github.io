@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amritesh Sharma Deals Bazaar – India's #1 Amazon Deal Finder</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+Devanagari:wght@400;600;700;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080810;--bg2:#0e0e1a;--bg3:#161624;
+  --accent:#ff4400;--gold:#f5c518;--gold2:#ffd700;
+  --text:#f2f2f2;--muted:#777;--card:#111120;--border:#232336;
+  --green:#00e676;--red:#ff1744;--tg:#0088cc;--wa:#25d366;--blue:#2196f3;--purple:#9c27b0;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans Devanagari',sans-serif;overflow-x:hidden;}
+
+/* TICKER */
+.ticker-wrap{position:sticky;top:0;z-index:300;background:var(--accent);overflow:hidden;}
+.ticker-track{display:flex;animation:ticker 45s linear infinite;white-space:nowrap;padding:9px 0;}
+.ticker-item{padding:0 40px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;border-right:1px solid rgba(255,255,255,0.2);}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* HEADER */
+header{background:rgba(8,8,16,0.97);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);padding:0 28px;height:64px;display:flex;align-items:center;justify-content:space-between;gap:16px;position:sticky;top:37px;z-index:200;}
+.brand-name{font-family:'Bebas Neue',cursive;font-size:22px;letter-spacing:2px;background:linear-gradient(90deg,var(--accent),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.brand-sub{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--muted);}
+nav{display:flex;align-items:center;gap:6px;}
+.nav-btn{padding:7px 12px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;border:none;cursor:pointer;font-family:'JetBrains Mono',monospace;transition:all 0.2s;text-decoration:none;display:inline-flex;align-items:center;gap:5px;}
+.btn-tg{background:var(--tg);color:#fff;}
+.btn-wa{background:var(--wa);color:#fff;}
+.btn-admin{background:var(--gold);color:#000;}
+
+/* LOADING */
+.loading-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--gold));z-index:9999;transition:width 0.3s;width:0;}
+
+/* HERO */
+.hero{position:relative;overflow:hidden;padding:56px 28px 48px;background:linear-gradient(160deg,#0e0418,#080810);border-bottom:1px solid var(--border);}
+.hero h1{font-family:'Bebas Neue',cursive;font-size:clamp(44px,8vw,96px);line-height:0.9;margin-bottom:8px;}
+.hero h1 .hl{background:linear-gradient(90deg,var(--accent),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.hero-sub{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:2px;margin-bottom:24px;}
+.hero-stats{display:flex;gap:32px;flex-wrap:wrap;}
+.stat-val{font-family:'Bebas Neue',cursive;font-size:38px;color:var(--gold2);line-height:1;}
+.stat-lbl{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;}
+
+/* CLOUD STATUS */
+.cloud-status{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;margin-bottom:16px;}
+.cloud-status.online{background:rgba(0,230,118,0.1);border:1px solid rgba(0,230,118,0.3);color:var(--green);}
+.cloud-status.offline{background:rgba(255,23,68,0.1);border:1px solid rgba(255,23,68,0.3);color:var(--red);}
+.cloud-status::before{content:'';width:7px;height:7px;border-radius:50%;background:currentColor;animation:pulse 1.5s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+
+/* SEARCH */
+.search-bar{display:flex;padding:14px 28px;background:var(--bg2);border-bottom:1px solid var(--border);}
+.search-input{flex:1;padding:11px 18px;background:var(--bg3);border:1px solid var(--border);border-right:none;color:var(--text);font-size:14px;font-family:'Noto Sans Devanagari',sans-serif;outline:none;}
+.search-input:focus{border-color:var(--accent);}
+.search-input::placeholder{color:var(--muted);}
+.search-btn{padding:11px 22px;background:var(--accent);color:#fff;border:none;font-size:13px;font-weight:700;cursor:pointer;}
+
+/* CATEGORIES */
+.cat-section{padding:18px 28px;background:var(--bg2);border-bottom:1px solid var(--border);}
+.cat-grid{display:flex;gap:8px;flex-wrap:wrap;}
+.cat-btn{padding:7px 14px;background:var(--card);border:1px solid var(--border);color:var(--muted);font-size:12px;font-weight:700;cursor:pointer;transition:all 0.2s;font-family:'Noto Sans Devanagari',sans-serif;}
+.cat-btn.active,.cat-btn:hover{background:var(--accent);border-color:var(--accent);color:#fff;}
+
+/* MAIN */
+.main{padding:28px;}
+.sec-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;}
+.sec-title{font-family:'Bebas Neue',cursive;font-size:28px;letter-spacing:2px;}
+.live-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(0,230,118,0.08);border:1px solid rgba(0,230,118,0.25);padding:4px 10px;font-size:10px;font-family:'JetBrains Mono',monospace;color:var(--green);letter-spacing:2px;}
+.live-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 1.4s infinite;}
+.deal-count{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);}
+
+/* FEATURED */
+.feat-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:12px;margin-bottom:28px;}
+.card-hero{grid-row:span 2;background:var(--card);border:1px solid var(--border);overflow:hidden;transition:border-color 0.3s,transform 0.3s;}
+.card-hero:hover{border-color:var(--accent);transform:translateY(-4px);}
+.card-hero .img-box{height:240px;font-size:90px;}
+
+/* CARDS */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;margin-bottom:28px;}
+.card{background:var(--card);border:1px solid var(--border);overflow:hidden;transition:border-color 0.3s,transform 0.3s,box-shadow 0.3s;}
+.card:hover{border-color:var(--accent);transform:translateY(-5px);box-shadow:0 16px 32px rgba(255,68,0,0.1);}
+.img-box{height:150px;background:linear-gradient(135deg,#1a1a2e,#16213e);display:flex;align-items:center;justify-content:center;font-size:60px;}
+.card-body{padding:14px;}
+.c-tag{display:inline-block;font-size:9px;font-weight:700;letter-spacing:2px;padding:3px 8px;text-transform:uppercase;font-family:'JetBrains Mono',monospace;margin-bottom:8px;background:var(--accent);color:#fff;}
+.c-tag.green{background:var(--green);color:#000;}
+.c-tag.gold{background:var(--gold);color:#000;}
+.c-tag.blue{background:var(--blue);color:#fff;}
+.c-tag.purple{background:var(--purple);color:#fff;}
+.c-name{font-size:13px;font-weight:700;line-height:1.3;margin-bottom:8px;}
+.price-row{display:flex;align-items:baseline;gap:8px;margin-bottom:10px;flex-wrap:wrap;}
+.c-price{font-family:'Bebas Neue',cursive;font-size:26px;color:var(--green);line-height:1;}
+.c-was{font-size:12px;color:var(--muted);text-decoration:line-through;}
+.disc-badge{background:var(--red);color:#fff;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;padding:2px 6px;}
+.buy-btn{display:flex;align-items:center;justify-content:space-between;width:100%;padding:10px 14px;background:var(--accent);color:#fff;border:none;font-size:12px;font-weight:700;letter-spacing:1px;cursor:pointer;transition:background 0.2s;text-decoration:none;font-family:'Noto Sans Devanagari',sans-serif;}
+.buy-btn:hover{background:#e03800;}
+
+/* EMPTY */
+.empty-state{text-align:center;padding:60px 20px;color:var(--muted);grid-column:1/-1;}
+.empty-state .icon{font-size:56px;margin-bottom:14px;}
+.empty-state h3{font-family:'Bebas Neue',cursive;font-size:24px;letter-spacing:2px;margin-bottom:8px;color:var(--text);}
+.empty-state p{font-size:13px;line-height:1.7;}
+
+/* FLASH */
+.flash{background:linear-gradient(130deg,var(--accent),#c43000);padding:18px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:28px;overflow:hidden;position:relative;}
+.flash::before{content:'⚡';position:absolute;right:28px;font-size:140px;opacity:0.06;top:50%;transform:translateY(-50%);pointer-events:none;}
+.flash-l h2{font-family:'Bebas Neue',cursive;font-size:30px;letter-spacing:3px;}
+.flash-l p{font-size:12px;opacity:.85;margin-top:3px;}
+.timer{display:flex;align-items:center;gap:8px;}
+.t-unit{text-align:center;}
+.t-num{font-family:'Bebas Neue',cursive;font-size:44px;line-height:1;background:rgba(255,255,255,0.14);padding:4px 10px;min-width:62px;display:block;}
+.t-lbl{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;opacity:.65;margin-top:2px;text-transform:uppercase;}
+.t-sep{font-family:'Bebas Neue',cursive;font-size:38px;opacity:.4;padding-top:4px;}
+
+/* CONNECT */
+.connect-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:28px;}
+.conn-card{padding:24px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;}
+.conn-card.tg{background:linear-gradient(135deg,#005f99,#003d66);}
+.conn-card.wa{background:linear-gradient(135deg,#128c4e,#0a5c32);}
+.conn-left h2{font-family:'Bebas Neue',cursive;font-size:26px;letter-spacing:2px;margin-bottom:5px;}
+.conn-left p{font-size:12px;opacity:.85;line-height:1.6;max-width:220px;}
+.conn-btn{display:flex;align-items:center;gap:8px;background:#fff;padding:10px 18px;font-size:12px;font-weight:700;text-decoration:none;white-space:nowrap;flex-shrink:0;}
+.conn-btn.tg-c{color:var(--tg);}
+.conn-btn.wa-c{color:#128c4e;}
+
+/* INFO STRIP */
+.info-strip{background:var(--bg3);border:1px solid var(--border);display:grid;grid-template-columns:repeat(4,1fr);margin-bottom:28px;}
+.info-item{padding:18px 14px;text-align:center;border-right:1px solid var(--border);}
+.info-item:last-child{border-right:none;}
+.info-num{font-family:'Bebas Neue',cursive;font-size:28px;color:var(--gold);line-height:1;}
+.info-lbl{font-size:11px;color:var(--muted);letter-spacing:1px;margin-top:4px;line-height:1.5;}
+
+/* FOOTER */
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px;display:grid;grid-template-columns:2fr 1fr 1fr;gap:20px;}
+.fn{font-family:'Bebas Neue',cursive;font-size:20px;letter-spacing:2px;background:linear-gradient(90deg,var(--accent),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+footer p{color:var(--muted);font-size:12px;margin-top:8px;line-height:1.7;max-width:260px;}
+.footer-col h4{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+.footer-col a{display:block;color:var(--text);text-decoration:none;font-size:12px;margin-bottom:7px;transition:color 0.2s;}
+.footer-col a:hover{color:var(--accent);}
+.footer-bottom{border-top:1px solid var(--border);padding:14px 28px;display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;flex-wrap:wrap;gap:8px;}
+
+/* ADMIN OVERLAY */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.93);z-index:9998;backdrop-filter:blur(16px);overflow-y:auto;padding:16px;}
+.overlay.open{display:flex;align-items:flex-start;justify-content:center;}
+.modal{background:var(--bg2);border:1px solid var(--border);width:100%;max-width:920px;margin:auto;}
+.modal-hd{background:linear-gradient(135deg,#1a0a00,#2a1000);border-bottom:1px solid var(--border);padding:20px 24px;display:flex;align-items:center;justify-content:space-between;}
+.modal-hd h2{font-family:'Bebas Neue',cursive;font-size:24px;letter-spacing:3px;color:var(--gold);}
+.modal-hd p{font-size:10px;color:var(--muted);margin-top:3px;font-family:'JetBrains Mono',monospace;}
+.close-btn{background:var(--border);border:none;color:var(--text);width:34px;height:34px;font-size:16px;cursor:pointer;}
+.tabs{display:flex;border-bottom:1px solid var(--border);overflow-x:auto;}
+.atab{padding:12px 16px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:none;border:none;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;}
+.atab.active,.atab:hover{color:var(--accent);border-bottom-color:var(--accent);}
+.tab-c{display:none;padding:20px 24px;}
+.tab-c.active{display:block;}
+
+/* LOGIN */
+.login-box{max-width:360px;margin:32px auto;background:var(--bg3);border:1px solid var(--border);padding:28px;}
+.login-box h3{font-family:'Bebas Neue',cursive;font-size:22px;letter-spacing:2px;margin-bottom:16px;color:var(--gold);text-align:center;}
+.inp-grp{margin-bottom:14px;}
+.inp-grp label{display:block;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:5px;}
+.inp-grp input{width:100%;padding:11px 14px;background:var(--bg);border:1px solid var(--border);color:var(--text);font-size:14px;outline:none;}
+.inp-grp input:focus{border-color:var(--accent);}
+.btn-full{width:100%;padding:12px;background:var(--accent);color:#fff;border:none;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;}
+.btn-full:hover{background:#e03800;}
+.btn-full:disabled{background:var(--muted);cursor:not-allowed;}
+.cloud-info{text-align:center;font-size:11px;color:var(--green);margin-top:12px;font-family:'JetBrains Mono',monospace;padding:8px;background:rgba(0,230,118,0.06);border:1px solid rgba(0,230,118,0.15);}
+
+/* FORM */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;}
+.form-grid.one{grid-template-columns:1fr;}
+.form-group label{display:block;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:5px;}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:9px 12px;background:var(--bg);border:1px solid var(--border);color:var(--text);font-size:13px;outline:none;font-family:'Noto Sans Devanagari',sans-serif;}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--accent);}
+.form-group textarea{resize:vertical;min-height:60px;}
+.add-hint{font-size:11px;color:var(--green);margin-bottom:12px;font-family:'JetBrains Mono',monospace;padding:8px 12px;background:rgba(0,230,118,0.06);border-left:3px solid var(--green);}
+.prod-list{margin-top:16px;}
+.prod-item{display:flex;align-items:center;gap:10px;padding:12px;background:var(--bg3);border:1px solid var(--border);margin-bottom:7px;}
+.prod-emoji{font-size:26px;flex-shrink:0;}
+.prod-info{flex:1;min-width:0;}
+.prod-name{font-size:13px;font-weight:700;margin-bottom:2px;}
+.prod-meta{font-size:10px;color:var(--muted);font-family:'JetBrains Mono',monospace;}
+.btn-sm{padding:5px 10px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:1px;border:none;cursor:pointer;}
+.btn-del{background:var(--red);color:#fff;}
+.sec-label{font-family:'Bebas Neue',cursive;font-size:18px;letter-spacing:2px;color:var(--gold);margin-bottom:14px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+.prod-count-badge{background:var(--accent);color:#fff;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;padding:2px 7px;margin-left:7px;}
+
+/* DASHBOARD */
+.dash-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;}
+.dash-card{background:var(--bg3);border:1px solid var(--border);padding:16px;position:relative;overflow:hidden;}
+.dash-num{font-family:'Bebas Neue',cursive;font-size:32px;line-height:1;margin-bottom:3px;}
+.dash-lbl{font-size:10px;color:var(--muted);font-family:'JetBrains Mono',monospace;letter-spacing:1px;}
+.top-bar{position:absolute;top:0;left:0;right:0;height:3px;}
+.period-btns{display:flex;gap:6px;margin-bottom:14px;}
+.period-btn{padding:5px 12px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;background:var(--bg3);border:1px solid var(--border);color:var(--muted);cursor:pointer;}
+.period-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+
+/* SYNC STATUS */
+.sync-bar{display:flex;align-items:center;gap:8px;padding:8px 14px;background:rgba(0,230,118,0.06);border:1px solid rgba(0,230,118,0.15);margin-bottom:14px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--green);}
+.sync-bar.syncing{color:var(--gold);background:rgba(245,197,24,0.06);border-color:rgba(245,197,24,0.2);}
+.sync-bar.error{color:var(--red);background:rgba(255,23,68,0.06);border-color:rgba(255,23,68,0.2);}
+
+/* TOAST */
+.toast{position:fixed;bottom:20px;right:20px;background:var(--bg3);border:1px solid var(--border);padding:10px 18px;font-family:'JetBrains Mono',monospace;font-size:12px;z-index:99999;transform:translateY(60px);opacity:0;transition:all 0.3s;border-left:4px solid var(--green);}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.err{border-left-color:var(--red);}
+
+/* FEAT ITEM */
+.feat-check-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg3);border:1px solid var(--border);}
+
+/* SETTINGS */
+.settings-section{margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--border);}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  header{padding:10px 14px;flex-wrap:wrap;height:auto;gap:8px;}
+  .hero{padding:32px 14px;}
+  .main{padding:16px 14px;}
+  .feat-grid,.connect-grid{grid-template-columns:1fr;}
+  .card-hero{grid-row:span 1;}
+  footer{grid-template-columns:1fr;padding:20px 14px;}
+  .footer-bottom{padding:12px 14px;}
+  .flash{flex-direction:column;padding:16px 14px;}
+  .info-strip{grid-template-columns:repeat(2,1fr);}
+  .form-grid{grid-template-columns:1fr;}
+  .dash-grid{grid-template-columns:repeat(2,1fr);}
+  .cat-section,.search-bar{padding:12px 14px;}
+}
+</style>
+</head>
+<body>
+
+<div class="loading-bar" id="loading-bar"></div>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-track" id="ticker-track">
+    <span class="ticker-item">🔥 Loading deals...</span>
+    <span class="ticker-item">⚡ Amritesh Sharma Deals Bazaar</span>
+    <span class="ticker-item">🔥 Loading deals...</span>
+    <span class="ticker-item">⚡ Amritesh Sharma Deals Bazaar</span>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div>
+    <div class="brand-name">Amritesh Sharma Deals Bazaar</div>
+    <div class="brand-sub">India's #1 Deal Finder • amriteshdeals-21</div>
+  </div>
+  <nav>
+    <a id="hdr-tg" href="#" target="_blank" class="nav-btn btn-tg">📢 Telegram</a>
+    <a id="hdr-wa" href="#" target="_blank" class="nav-btn btn-wa">💬 WhatsApp</a>
+    <button class="nav-btn btn-admin" onclick="openAdmin()">⚙ ADMIN</button>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="cloud-status online" id="cloud-status">☁ CLOUD CONNECTED — Data Permanent Saved</div>
+  <h1>आज की <span class="hl">सबसे बड़ी</span><br>AMAZON DEALS</h1>
+  <div class="hero-sub">BY AMRITESH SHARMA — AMAZON ASSOCIATE | amriteshdeals-21</div>
+  <div class="hero-stats">
+    <div><div class="stat-val" id="cnt-deals">0</div><div class="stat-lbl">Live Deals</div></div>
+    <div><div class="stat-val" id="cnt-clicks">0</div><div class="stat-lbl">Total Clicks</div></div>
+    <div><div class="stat-val" id="cnt-members">12.8K</div><div class="stat-lbl">Telegram Members</div></div>
+    <div><div class="stat-val" id="cnt-earn">₹0</div><div class="stat-lbl">Est. Earnings</div></div>
+  </div>
+</section>
+
+<!-- SEARCH -->
+<div class="search-bar">
+  <input class="search-input" type="text" placeholder="🔍 Product search करें..." oninput="doSearch(this.value)">
+  <button class="search-btn">खोजें</button>
+</div>
+
+<!-- CATEGORIES -->
+<div class="cat-section">
+  <div class="cat-grid">
+    <button class="cat-btn active" onclick="setCat('all',this)">🔥 सभी</button>
+    <button class="cat-btn" onclick="setCat('mobile',this)">📱 Mobile</button>
+    <button class="cat-btn" onclick="setCat('earphones',this)">🎧 Earphones</button>
+    <button class="cat-btn" onclick="setCat('laptop',this)">💻 Laptop</button>
+    <button class="cat-btn" onclick="setCat('tv',this)">📺 Smart TV</button>
+    <button class="cat-btn" onclick="setCat('accessories',this)">⌚ Accessories</button>
+    <button class="cat-btn" onclick="setCat('fashion',this)">👗 Fashion</button>
+    <button class="cat-btn" onclick="setCat('beauty',this)">💄 Beauty</button>
+    <button class="cat-btn" onclick="setCat('appliances',this)">🔌 Appliances</button>
+    <button class="cat-btn" onclick="setCat('kids',this)">🧸 Kids</button>
+    <button class="cat-btn" onclick="setCat('home',this)">🏠 Home</button>
+    <button class="cat-btn" onclick="setCat('sports',this)">⚽ Sports</button>
+  </div>
+</div>
+
+<!-- MAIN -->
+<main class="main">
+
+  <div class="sec-hd">
+    <div class="sec-title">⭐ Featured Deals</div>
+    <div class="live-badge">LIVE</div>
+  </div>
+  <div class="feat-grid" id="feat-grid">
+    <div class="empty-state"><div class="icon">⏳</div><h3>Loading...</h3><p>Cloud se data load ho raha hai</p></div>
+  </div>
+
+  <div class="flash">
+    <div class="flash-l"><h2>⚡ FLASH SALE — सिर्फ आज!</h2><p>ये deals रात 12 बजे expire हो जाएंगी</p></div>
+    <div class="timer">
+      <div class="t-unit"><span class="t-num" id="t-h">00</span><div class="t-lbl">HRS</div></div>
+      <div class="t-sep">:</div>
+      <div class="t-unit"><span class="t-num" id="t-m">00</span><div class="t-lbl">MIN</div></div>
+      <div class="t-sep">:</div>
+      <div class="t-unit"><span class="t-num" id="t-s">00</span><div class="t-lbl">SEC</div></div>
+    </div>
+  </div>
+
+  <div class="sec-hd">
+    <div class="sec-title">🔥 सभी Deals</div>
+    <span class="deal-count" id="dc">Loading...</span>
+  </div>
+  <div class="cards-grid" id="cards-wrap">
+    <div class="empty-state"><div class="icon">⏳</div><h3>Loading...</h3><p>Cloud se data load ho raha hai</p></div>
+  </div>
+
+  <div class="info-strip">
+    <div class="info-item"><div class="info-num">3–9%</div><div class="info-lbl">Amazon Commission<br>हर Sale पर</div></div>
+    <div class="info-item"><div class="info-num">₹0</div><div class="info-lbl">Investment<br>बिल्कुल Free</div></div>
+    <div class="info-item"><div class="info-num">24/7</div><div class="info-lbl">Cloud Saved<br>हर Device पर</div></div>
+    <div class="info-item"><div class="info-num">∞</div><div class="info-lbl">Earning Potential<br>Traffic = Commission</div></div>
+  </div>
+
+  <div class="connect-grid">
+    <div class="conn-card tg">
+      <div class="conn-left"><h2>📢 Telegram Join करें</h2><p>हर नई Deal सबसे पहले पाएं!</p></div>
+      <a id="cta-tg" href="#" target="_blank" class="conn-btn tg-c">Channel Join करें</a>
+    </div>
+    <div class="conn-card wa">
+      <div class="conn-left"><h2>💬 WhatsApp Join करें</h2><p>सीधे phone पर deals पाएं!</p></div>
+      <a id="cta-wa" href="#" target="_blank" class="conn-btn wa-c">Group Join करें</a>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div>
+    <div class="fn">Amritesh Sharma Deals Bazaar</div>
+    <p>Amazon Associates Program के member हैं। Affiliate links से खरीदारी पर commission मिलता है।</p>
+  </div>
+  <div class="footer-col">
+    <h4>Categories</h4>
+    <a href="#">📱 Mobiles</a><a href="#">🎧 Earphones</a><a href="#">💻 Laptops</a><a href="#">📺 Smart TVs</a>
+  </div>
+  <div class="footer-col">
+    <h4>Connect</h4>
+    <a id="foot-tg" href="#">📢 Telegram</a><a id="foot-wa" href="#">💬 WhatsApp</a>
+  </div>
+</footer>
+<div class="footer-bottom">
+  <span>⚠️ Affiliate Disclosure: Amazon Associates affiliate links use होती हैं।</span>
+  <span>© 2024 Amritesh Sharma Deals Bazaar • ☁ Cloud Powered</span>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- ADMIN OVERLAY -->
+<div class="overlay" id="admin-overlay">
+  <div class="modal">
+    <div class="modal-hd">
+      <div>
+        <h2>⚙ ADMIN — AMRITESH SHARMA DEALS BAZAAR</h2>
+        <p>🔒 Sirf aap dekh sakte hain • ☁ Cloud Powered — Har Device par Same Data</p>
+      </div>
+      <button class="close-btn" onclick="closeAdmin()">✕</button>
+    </div>
+
+    <div id="login-screen">
+      <div class="login-box">
+        <h3>🔐 Admin Login</h3>
+        <div class="cloud-info">☁ Cloud Connected — Kisi bhi device se login karein!</div>
+        <br>
+        <div class="inp-grp">
+          <label>Password</label>
+          <input type="password" id="a-pass" placeholder="Admin password" onkeydown="if(event.key==='Enter')doLogin()">
+        </div>
+        <button class="btn-full" id="login-btn" onclick="doLogin()">LOGIN करें →</button>
+      </div>
+    </div>
+
+    <div id="main-screen" style="display:none">
+      <div class="tabs">
+        <button class="atab active" onclick="sTab(this,'dashboard')">📊 Dashboard</button>
+        <button class="atab" onclick="sTab(this,'products')">📦 Products</button>
+        <button class="atab" onclick="sTab(this,'featured')">⭐ Featured</button>
+        <button class="atab" onclick="sTab(this,'settings')">⚙ Settings</button>
+        <button class="atab" onclick="sTab(this,'password')">🔐 Password</button>
+      </div>
+
+      <!-- DASHBOARD -->
+      <div class="tab-c active" id="tab-dashboard">
+        <div class="sync-bar" id="sync-status">☁ Cloud se data load ho raha hai...</div>
+        <div class="sec-label">📊 Earnings Dashboard</div>
+        <div class="period-btns">
+          <button class="period-btn active" onclick="sPeriod(this,'today')">आज</button>
+          <button class="period-btn" onclick="sPeriod(this,'week')">7 Days</button>
+          <button class="period-btn" onclick="sPeriod(this,'month')">30 Days</button>
+          <button class="period-btn" onclick="sPeriod(this,'all')">सब</button>
+        </div>
+        <div class="dash-grid" id="dash-stats"></div>
+        <div class="sec-label" style="font-size:15px;margin-top:18px">📝 Earning Entry (Amazon se dekh ke)</div>
+        <div class="form-grid">
+          <div class="form-group"><label>Date</label><input type="date" id="e-date"></div>
+          <div class="form-group"><label>Clicks</label><input type="number" id="e-clicks" placeholder="0"></div>
+          <div class="form-group"><label>Orders</label><input type="number" id="e-orders" placeholder="0"></div>
+          <div class="form-group"><label>Revenue ₹</label><input type="number" id="e-rev" placeholder="0"></div>
+          <div class="form-group"><label>Commission ₹</label><input type="number" id="e-comm" placeholder="0"></div>
+        </div>
+        <button class="btn-full" onclick="saveEarning()">💾 Earning Save करें → Cloud</button>
+        <table style="width:100%;margin-top:14px;border-collapse:collapse;font-size:12px">
+          <thead><tr style="border-bottom:1px solid var(--border)">
+            <th style="text-align:left;padding:7px;color:var(--muted);font-family:JetBrains Mono,monospace;font-size:10px">DATE</th>
+            <th style="text-align:left;padding:7px;color:var(--muted);font-family:JetBrains Mono,monospace;font-size:10px">CLICKS</th>
+            <th style="text-align:left;padding:7px;color:var(--muted);font-family:JetBrains Mono,monospace;font-size:10px">ORDERS</th>
+            <th style="text-align:left;padding:7px;color:var(--muted);font-family:JetBrains Mono,monospace;font-size:10px">REVENUE</th>
+            <th style="text-align:left;padding:7px;color:var(--muted);font-family:JetBrains Mono,monospace;font-size:10px">COMMISSION</th>
+            <th style="padding:7px"></th>
+          </tr></thead>
+          <tbody id="earn-tb"></tbody>
+        </table>
+      </div>
+
+      <!-- PRODUCTS -->
+      <div class="tab-c" id="tab-products">
+        <div class="sec-label">➕ Naya Product Add करें</div>
+        <div class="add-hint">✅ SiteStripe se link copy karo — affiliate tag amriteshdeals-21 automatic lagega! Data Cloud mein save hoga!</div>
+        <div class="form-grid">
+          <div class="form-group"><label>Product Name *</label><input type="text" id="p-name" placeholder="boAt Airdopes 141 ANC"></div>
+          <div class="form-group"><label>Current Price * (₹)</label><input type="text" id="p-price" placeholder="₹1,299"></div>
+          <div class="form-group"><label>Original Price (₹)</label><input type="text" id="p-was" placeholder="₹3,999"></div>
+          <div class="form-group">
+            <label>Category *</label>
+            <select id="p-cat">
+              <option value="mobile">📱 Mobile</option>
+              <option value="earphones">🎧 Earphones</option>
+              <option value="laptop">💻 Laptop</option>
+              <option value="tv">📺 Smart TV</option>
+              <option value="accessories">⌚ Accessories</option>
+              <option value="fashion">👗 Fashion</option>
+              <option value="beauty">💄 Beauty</option>
+              <option value="appliances">🔌 Appliances</option>
+              <option value="kids">🧸 Kids</option>
+              <option value="home">🏠 Home</option>
+              <option value="sports">⚽ Sports</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-grid one">
+          <div class="form-group"><label>Amazon URL * (SiteStripe se copy karein)</label><input type="text" id="p-url" placeholder="https://www.amazon.in/dp/... ya amzn.to/..."></div>
+        </div>
+        <div class="form-grid">
+          <div class="form-group"><label>Emoji</label><input type="text" id="p-emoji" value="🛍️"></div>
+          <div class="form-group"><label>Badge Text</label><input type="text" id="p-badge" value="🔥 Hot Deal"></div>
+          <div class="form-group">
+            <label>Badge Color</label>
+            <select id="p-bcol">
+              <option value="default">🔴 Red</option>
+              <option value="green">🟢 Green</option>
+              <option value="gold">🟡 Gold</option>
+              <option value="blue">🔵 Blue</option>
+              <option value="purple">🟣 Purple</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn-full" onclick="addProd()" style="margin-bottom:20px" id="add-prod-btn">✅ PRODUCT ADD करें → Cloud Save</button>
+        <div class="sec-label">📦 सभी Products <span class="prod-count-badge" id="prod-cnt">0</span></div>
+        <div class="prod-list" id="prod-list"></div>
+      </div>
+
+      <!-- FEATURED -->
+      <div class="tab-c" id="tab-featured">
+        <div class="sec-label">⭐ Featured Products (max 4)</div>
+        <p style="font-size:12px;color:var(--muted);margin-bottom:14px;font-family:JetBrains Mono,monospace">पहला product hero बनेगा। Max 4 select करें।</p>
+        <div id="feat-sel" style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px"></div>
+        <button class="btn-full" onclick="saveFeat()">⭐ Featured Save → Cloud</button>
+      </div>
+
+      <!-- SETTINGS -->
+      <div class="tab-c" id="tab-settings">
+        <div class="settings-section">
+          <div class="sec-label">🔗 Social Links</div>
+          <div class="form-grid">
+            <div class="form-group"><label>Telegram Link</label><input type="text" id="s-tg" placeholder="https://t.me/..."></div>
+            <div class="form-group"><label>WhatsApp Link</label><input type="text" id="s-wa" placeholder="https://chat.whatsapp.com/..."></div>
+          </div>
+        </div>
+        <div class="settings-section">
+          <div class="sec-label">📢 Ticker Text</div>
+          <div class="form-grid one">
+            <div class="form-group"><label>Items ( | se alag karein)</label><textarea id="s-ticker" rows="3"></textarea></div>
+          </div>
+        </div>
+        <div class="settings-section">
+          <div class="sec-label">📊 Stats</div>
+          <div class="form-grid">
+            <div class="form-group"><label>Telegram Members</label><input type="text" id="s-members" placeholder="12.8K"></div>
+            <div class="form-group"><label>Affiliate ID</label><input type="text" id="s-affid" placeholder="amriteshdeals-21"></div>
+          </div>
+        </div>
+        <button class="btn-full" onclick="saveSettings()">💾 SETTINGS SAVE → Cloud</button>
+      </div>
+
+      <!-- PASSWORD -->
+      <div class="tab-c" id="tab-password">
+        <div class="sec-label">🔐 Password Change</div>
+        <div class="cloud-info" style="margin-bottom:16px;display:block;padding:8px;background:rgba(0,230,118,0.06);border:1px solid rgba(0,230,118,0.15);font-family:JetBrains Mono,monospace;font-size:11px;color:var(--green)">☁ Password cloud mein save hoga — kisi bhi device se kaam karega!</div>
+        <div class="form-grid one">
+          <div class="form-group"><label>Current Password</label><input type="password" id="cp-curr"></div>
+          <div class="form-group"><label>New Password *</label><input type="password" id="cp-new" placeholder="Capital+small+number+symbol"></div>
+          <div class="form-group"><label>Confirm Password *</label><input type="password" id="cp-conf"></div>
+        </div>
+        <button class="btn-full" onclick="changePass()">🔐 PASSWORD CHANGE → Cloud Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════
+// CLOUD STORAGE — JSONBin.io
+// Data permanent save hoga — kisi bhi device par
+// ══════════════════════════════════════════════
+const JSONBIN_KEY = '$2a$10$FR9XxtuwotDuCDsPdt1DleXFmhRLBlHgj0d1K4gS/4KgNNwltXlw6';
+const JSONBIN_BIN = '6a23eb02f5f4af5e29c1d331';
+const JSONBIN_URL = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN}`;
+
+let CLOUD_DATA = {
+  products: [],
+  settings: {
+    telegram: 'https://t.me/AmriteshDealsBazaar',
+    whatsapp: 'https://chat.whatsapp.com/FuTRPYmSXQiE6DMe3sA9O0',
+    ticker: '🔥 Deals | ⚡ Electronics | 💻 Laptop Sale | 👗 Fashion | 💄 Beauty',
+    members: '12.8K',
+    affid: 'amriteshdeals-21',
+    password: 'AmriteshDeals@9199'
+  },
+  earnings: [],
+  clicks: {}
+};
+
+let isSaving = false;
+
+// ── LOAD from Cloud ──
+async function loadFromCloud() {
+  setLoading(true);
+  try {
+    const res = await fetch(JSONBIN_URL + '/latest', {
+      headers: { 'X-Master-Key': JSONBIN_KEY }
+    });
+    if (!res.ok) throw new Error('Load failed');
+    const data = await res.json();
+    CLOUD_DATA = { ...CLOUD_DATA, ...data.record };
+    setCloudStatus(true);
+    showToast('☁ Cloud se data load hua!');
+  } catch (e) {
+    setCloudStatus(false);
+    showToast('⚠ Cloud error — Retry ho raha hai...', true);
+  }
+  setLoading(false);
+  renderAll();
+}
+
+// ── SAVE to Cloud ──
+async function saveToCloud() {
+  if (isSaving) return;
+  isSaving = true;
+  setSyncStatus('syncing', '☁ Cloud mein save ho raha hai...');
+  try {
+    const res = await fetch(JSONBIN_URL, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Master-Key': JSONBIN_KEY
+      },
+      body: JSON.stringify(CLOUD_DATA)
+    });
+    if (!res.ok) throw new Error('Save failed');
+    setSyncStatus('ok', '✅ Cloud mein save ho gaya! Kisi bhi device par data milega.');
+    setCloudStatus(true);
+  } catch (e) {
+    setSyncStatus('error', '❌ Save error! Internet check karein.');
+    showToast('❌ Cloud save error!', true);
+  }
+  isSaving = false;
+}
+
+function setLoading(on) {
+  const lb = document.getElementById('loading-bar');
+  if (lb) lb.style.width = on ? '70%' : '100%';
+  setTimeout(() => { if (lb) lb.style.width = '0'; }, on ? 0 : 500);
+}
+
+function setCloudStatus(online) {
+  const cs = document.getElementById('cloud-status');
+  if (!cs) return;
+  if (online) {
+    cs.className = 'cloud-status online';
+    cs.textContent = '☁ CLOUD CONNECTED — Data Permanent & Secure';
+  } else {
+    cs.className = 'cloud-status offline';
+    cs.textContent = '⚠ Cloud Offline — Internet check karein';
+  }
+}
+
+function setSyncStatus(type, msg) {
+  const ss = document.getElementById('sync-status');
+  if (!ss) return;
+  ss.className = 'sync-bar' + (type === 'syncing' ? ' syncing' : type === 'error' ? ' error' : '');
+  ss.textContent = msg;
+}
+
+// ── AFFILIATE LINK ──
+function affLink(url, cat) {
+  const id = CLOUD_DATA.settings.affid || 'amriteshdeals-21';
+  if (!url) return `https://www.amazon.in/s?k=amazon+deals&tag=${id}`;
+  try {
+    if (url.includes(`tag=${id}`)) return url;
+    if (url.includes('amzn.to') || url.includes('amzn.eu')) return url + (url.includes('?') ? '&' : '?') + `tag=${id}`;
+    const u = new URL(url); u.searchParams.set('tag', id); return u.toString();
+  } catch { return url + (url.includes('?') ? '&' : '?') + `tag=${id}`; }
+}
+
+// ── CLICK TRACKING ──
+function trackClick(id, cat) {
+  const p = CLOUD_DATA.products.find(x => x.id === id);
+  if (p) p.clicks = (p.clicks || 0) + 1;
+  const today = new Date().toISOString().slice(0, 10);
+  if (!CLOUD_DATA.clicks) CLOUD_DATA.clicks = {};
+  if (!CLOUD_DATA.clicks[today]) CLOUD_DATA.clicks[today] = { clicks: 0, est: 0 };
+  CLOUD_DATA.clicks[today].clicks++;
+  const rates = { mobile: 4, earphones: 5, laptop: 3, tv: 4, accessories: 5, fashion: 9, beauty: 7, appliances: 4, kids: 6, home: 5, sports: 6 };
+  CLOUD_DATA.clicks[today].est += Math.round(2000 * (rates[cat] || 5) / 100 * 0.15);
+  saveToCloud();
+  updateHero();
+}
+
+// ── CALC DISCOUNT ──
+function calcDisc(p, w) {
+  if (!p || !w) return '';
+  const pv = parseInt((p || '').replace(/[₹,]/g, '')), wv = parseInt((w || '').replace(/[₹,]/g, ''));
+  if (!pv || !wv || wv <= pv) return '';
+  return `-${Math.round((wv - pv) / wv * 100)}%`;
+}
+
+// ── MAKE CARD ──
+function mkCard(p, big = false) {
+  const link = affLink(p.url, p.cat);
+  const disc = p.discount || calcDisc(p.price, p.was);
+  const tc = 'c-tag ' + (p.badgeColor || 'default');
+  const wH = p.was ? `<span class="c-was">${p.was}</span>` : '';
+  const dH = disc ? `<span class="disc-badge">${disc}</span>` : '';
+  const imgH = big ? 240 : 150;
+  const priceSize = big ? 'font-size:40px' : '';
+  return `<div class="${big ? 'card-hero ' : ''}card" data-cat="${p.cat}" data-id="${p.id}">
+    <div class="img-box" style="height:${imgH}px">${p.emoji || '🛍️'}</div>
+    <div class="card-body">
+      <span class="${tc}">${p.badge || '🔥 Deal'}</span>
+      <div class="c-name">${p.name}</div>
+      <div class="price-row"><span class="c-price" style="${priceSize}">${p.price}</span>${wH}${dH}</div>
+      <a href="${link}" target="_blank" class="buy-btn" onclick="trackClick(${p.id},'${p.cat}')">Amazon पर खरीदें <span>→</span></a>
+    </div>
+  </div>`;
+}
+
+// ── RENDER ALL ──
+let curFilt = 'all', curSearch = '';
+function renderAll() {
+  const prods = CLOUD_DATA.products || [];
+  const sets = CLOUD_DATA.settings || {};
+
+  // Social links
+  ['hdr-tg', 'cta-tg', 'foot-tg'].forEach(id => { const el = document.getElementById(id); if (el) el.href = sets.telegram || '#'; });
+  ['hdr-wa', 'cta-wa', 'foot-wa'].forEach(id => { const el = document.getElementById(id); if (el) el.href = sets.whatsapp || '#'; });
+
+  // Members
+  const me = document.getElementById('cnt-members'); if (me) me.textContent = sets.members || '12.8K';
+
+  // Featured
+  const feat = prods.filter(p => p.featured).slice(0, 4);
+  const fg = document.getElementById('feat-grid');
+  if (fg) fg.innerHTML = feat.length === 0
+    ? '<div class="empty-state"><div class="icon">⭐</div><h3>Featured Nahi</h3><p>Admin → Featured se choose karein</p></div>'
+    : feat.map((p, i) => mkCard(p, i === 0)).join('');
+
+  // All cards
+  const cw = document.getElementById('cards-wrap');
+  if (cw) cw.innerHTML = prods.length === 0
+    ? '<div class="empty-state"><div class="icon">📦</div><h3>Koi Deal Nahi</h3><p>Admin → Products se add karein<br>SiteStripe se Amazon link daalein</p></div>'
+    : prods.map(p => mkCard(p)).join('');
+
+  const dc = document.getElementById('dc'); if (dc) dc.textContent = prods.length + ' DEALS LIVE';
+
+  // Ticker
+  const tt = document.getElementById('ticker-track');
+  if (tt && sets.ticker) {
+    const items = sets.ticker.split('|').map(s => s.trim()).filter(Boolean);
+    tt.innerHTML = [...items, ...items].map(t => `<span class="ticker-item">${t}</span>`).join('');
+  }
+
+  animCount(document.getElementById('cnt-deals'), prods.length);
+  updateHero();
+  applyFilters();
+}
+
+// ── FILTER ──
+function setCat(id, el) {
+  curFilt = id;
+  document.querySelectorAll('.cat-btn').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  applyFilters();
+}
+function doSearch(v) { curSearch = v.toLowerCase().trim(); applyFilters(); }
+function applyFilters() {
+  const all = document.querySelectorAll('#cards-wrap .card, #feat-grid .card, #feat-grid .card-hero');
+  let v = 0;
+  all.forEach(c => {
+    const cm = curFilt === 'all' || c.dataset.cat === curFilt;
+    const ne = c.querySelector('.c-name');
+    const sm = !curSearch || (ne && ne.textContent.toLowerCase().includes(curSearch));
+    c.style.display = (cm && sm) ? '' : 'none';
+    if (cm && sm) v++;
+  });
+  const dc = document.getElementById('dc'); if (dc) dc.textContent = v + ' DEALS LIVE';
+}
+
+// ── HERO STATS ──
+function updateHero() {
+  const cl = CLOUD_DATA.clicks || {};
+  const prods = CLOUD_DATA.products || [];
+  const earnings = CLOUD_DATA.earnings || [];
+  const wClicks = Object.values(cl).reduce((a, d) => a + (d.clicks || 0), 0) + prods.reduce((a, p) => a + (p.clicks || 0), 0);
+  const manComm = earnings.reduce((a, e) => a + (e.commission || 0), 0);
+  const estEarn = Object.values(cl).reduce((a, d) => a + (d.est || 0), 0);
+  const ce = document.getElementById('cnt-clicks'); if (ce) ce.textContent = wClicks;
+  const ee = document.getElementById('cnt-earn'); if (ee) ee.textContent = '₹' + (manComm + estEarn).toLocaleString('en-IN');
+}
+
+function animCount(el, target) {
+  if (!el || !target) return; let v = 0;
+  const t = setInterval(() => { v += Math.max(1, Math.floor(target / 40)); if (v >= target) { v = target; clearInterval(t); } el.textContent = v; }, 30);
+}
+
+// ── TIMER ──
+function updateTimer() {
+  const now = new Date(), mid = new Date(); mid.setHours(24, 0, 0, 0);
+  const diff = Math.floor((mid - now) / 1000); if (diff <= 0) return;
+  ['t-h', 't-m', 't-s'].forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = String([Math.floor(diff / 3600), Math.floor((diff % 3600) / 60), diff % 60][i]).padStart(2, '0');
+  });
+}
+setInterval(updateTimer, 1000); updateTimer();
+
+// ── TOAST ──
+function showToast(msg, err = false) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = 'toast' + (err ? ' err' : '');
+  t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ════════════════════
+// ADMIN
+// ════════════════════
+let adminOk = false;
+
+function openAdmin() {
+  document.getElementById('admin-overlay').classList.add('open');
+  if (adminOk) refreshAdmin();
+}
+function closeAdmin() { document.getElementById('admin-overlay').classList.remove('open'); }
+document.getElementById('admin-overlay').addEventListener('click', function (e) { if (e.target === this) closeAdmin(); });
+
+async function doLogin() {
+  const pw = document.getElementById('a-pass').value;
+  const btn = document.getElementById('login-btn');
+  btn.disabled = true; btn.textContent = '⏳ Checking...';
+  // Load fresh data from cloud first
+  try {
+    const res = await fetch(JSONBIN_URL + '/latest', { headers: { 'X-Master-Key': JSONBIN_KEY } });
+    if (res.ok) { const data = await res.json(); CLOUD_DATA = { ...CLOUD_DATA, ...data.record }; }
+  } catch (e) {}
+  btn.disabled = false; btn.textContent = 'LOGIN करें →';
+  if (pw === (CLOUD_DATA.settings.password || 'AmriteshDeals@9199')) {
+    adminOk = true;
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('main-screen').style.display = 'block';
+    refreshAdmin();
+    showToast('✅ Welcome Amritesh Sharma! ☁ Cloud Connected');
+  } else {
+    showToast('❌ गलत Password!', true);
+    document.getElementById('a-pass').value = '';
+  }
+}
+
+function refreshAdmin() { renderDash(); renderProdList(); renderFeatSel(); loadSettings(); setSyncStatus('ok', '✅ Cloud se data loaded — Har device par same data!'); }
+
+function sTab(btn, name) {
+  document.querySelectorAll('.atab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-c').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+  if (name === 'featured') renderFeatSel();
+  if (name === 'dashboard') renderDash();
+}
+
+// DASHBOARD
+let curPeriod = 'today';
+function sPeriod(btn, p) {
+  document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active'); curPeriod = p; renderDash();
+}
+
+function renderDash() {
+  const earnings = CLOUD_DATA.earnings || [];
+  const cl = CLOUD_DATA.clicks || {};
+  const prods = CLOUD_DATA.products || [];
+  let tClicks = 0, tOrders = 0, tRev = 0, tComm = 0;
+  let wClicks = Object.values(cl).reduce((a, d) => a + (d.clicks || 0), 0);
+  let wEst = Object.values(cl).reduce((a, d) => a + (d.est || 0), 0);
+  earnings.forEach(e => { tClicks += e.clicks || 0; tOrders += e.orders || 0; tRev += e.revenue || 0; tComm += e.commission || 0; });
+  const ds = document.getElementById('dash-stats');
+  if (ds) ds.innerHTML = `
+    <div class="dash-card"><div class="top-bar" style="background:var(--green)"></div><div class="dash-num" style="color:var(--green)">₹${tComm.toLocaleString('en-IN')}</div><div class="dash-lbl">Commission Earned</div></div>
+    <div class="dash-card"><div class="top-bar" style="background:var(--gold)"></div><div class="dash-num" style="color:var(--gold)">₹${tRev.toLocaleString('en-IN')}</div><div class="dash-lbl">Total Revenue</div></div>
+    <div class="dash-card"><div class="top-bar" style="background:var(--blue)"></div><div class="dash-num" style="color:var(--blue)">${tClicks + wClicks}</div><div class="dash-lbl">Total Clicks</div></div>
+    <div class="dash-card"><div class="top-bar" style="background:var(--purple)"></div><div class="dash-num" style="color:var(--purple)">${tOrders}</div><div class="dash-lbl">Total Orders</div></div>
+    <div class="dash-card"><div class="top-bar" style="background:var(--accent)"></div><div class="dash-num" style="color:var(--accent)">₹${wEst.toLocaleString('en-IN')}</div><div class="dash-lbl">Est. Earning</div></div>
+    <div class="dash-card"><div class="top-bar" style="background:var(--red)"></div><div class="dash-num" style="color:var(--red)">${prods.length}</div><div class="dash-lbl">Live Deals</div></div>
+  `;
+  renderEarnTable();
+  const ed = document.getElementById('e-date'); if (ed && !ed.value) ed.value = new Date().toISOString().slice(0, 10);
+}
+
+// EARNINGS
+function saveEarning() {
+  const date = document.getElementById('e-date').value;
+  if (!date) { showToast('❌ Date required!', true); return; }
+  if (!CLOUD_DATA.earnings) CLOUD_DATA.earnings = [];
+  const obj = { date, clicks: parseInt(document.getElementById('e-clicks').value) || 0, orders: parseInt(document.getElementById('e-orders').value) || 0, revenue: parseFloat(document.getElementById('e-rev').value) || 0, commission: parseFloat(document.getElementById('e-comm').value) || 0 };
+  const idx = CLOUD_DATA.earnings.findIndex(e => e.date === date);
+  if (idx >= 0) CLOUD_DATA.earnings[idx] = obj; else CLOUD_DATA.earnings.push(obj);
+  CLOUD_DATA.earnings.sort((a, b) => b.date.localeCompare(a.date));
+  saveToCloud(); renderEarnTable(); renderDash(); updateHero();
+  showToast('✅ Earning Cloud mein save!');
+  ['e-clicks', 'e-orders', 'e-rev', 'e-comm'].forEach(id => document.getElementById(id).value = '');
+}
+function delEarning(date) {
+  CLOUD_DATA.earnings = (CLOUD_DATA.earnings || []).filter(e => e.date !== date);
+  saveToCloud(); renderEarnTable(); renderDash(); updateHero(); showToast('🗑 Deleted from Cloud.');
+}
+function renderEarnTable() {
+  const tb = document.getElementById('earn-tb'); if (!tb) return;
+  tb.innerHTML = (CLOUD_DATA.earnings || []).slice(0, 20).map(e => `<tr>
+    <td style="padding:7px;font-family:JetBrains Mono,monospace;font-size:10px">${e.date}</td>
+    <td style="padding:7px">${e.clicks}</td><td style="padding:7px">${e.orders}</td>
+    <td style="padding:7px;color:var(--gold)">₹${(e.revenue || 0).toLocaleString('en-IN')}</td>
+    <td style="padding:7px;color:var(--green);font-weight:700">₹${(e.commission || 0).toLocaleString('en-IN')}</td>
+    <td style="padding:7px"><button class="btn-sm btn-del" onclick="delEarning('${e.date}')">DEL</button></td>
+  </tr>`).join('') || '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:14px;font-size:12px">Koi entry nahi.</td></tr>';
+}
+
+// PRODUCTS
+function addProd() {
+  const name = document.getElementById('p-name').value.trim();
+  const price = document.getElementById('p-price').value.trim();
+  const url = document.getElementById('p-url').value.trim();
+  if (!name || !price || !url) { showToast('❌ Name, Price, URL जरूरी!', true); return; }
+  if (!CLOUD_DATA.products) CLOUD_DATA.products = [];
+  CLOUD_DATA.products.push({
+    id: Date.now(), name, price,
+    was: document.getElementById('p-was').value.trim(),
+    discount: calcDisc(price, document.getElementById('p-was').value.trim()),
+    cat: document.getElementById('p-cat').value,
+    emoji: document.getElementById('p-emoji').value.trim() || '🛍️',
+    badge: document.getElementById('p-badge').value.trim() || '🔥 Deal',
+    badgeColor: document.getElementById('p-bcol').value,
+    url, featured: false, clicks: 0
+  });
+  saveToCloud();
+  ['p-name', 'p-price', 'p-was', 'p-url', 'p-badge'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('p-emoji').value = '🛍️';
+  renderProdList(); renderAll();
+  showToast('✅ Product Cloud mein save! Har device par dikhega!');
+}
+
+function delProd(id) {
+  if (!confirm('Product delete karein? Cloud se bhi hatega!')) return;
+  CLOUD_DATA.products = (CLOUD_DATA.products || []).filter(p => p.id !== id);
+  saveToCloud(); renderProdList(); renderAll(); renderFeatSel();
+  showToast('🗑 Product Cloud se delete!');
+}
+
+function renderProdList() {
+  const prods = CLOUD_DATA.products || [];
+  const cnt = document.getElementById('prod-cnt'); if (cnt) cnt.textContent = prods.length;
+  const list = document.getElementById('prod-list'); if (!list) return;
+  list.innerHTML = prods.length === 0
+    ? '<div style="text-align:center;padding:28px;color:var(--muted)"><div style="font-size:32px">📦</div><br>Koi product nahi. Upar se add karein.</div>'
+    : prods.map(p => `<div class="prod-item">
+        <div class="prod-emoji">${p.emoji}</div>
+        <div class="prod-info">
+          <div class="prod-name">${p.name}</div>
+          <div class="prod-meta">${p.cat} • ${p.price}${p.was ? ' (was ' + p.was + ')' : ''} • Clicks: ${p.clicks || 0}${p.featured ? ' • ⭐' : ''}</div>
+        </div>
+        <div><button class="btn-sm btn-del" onclick="delProd(${p.id})">DELETE</button></div>
+      </div>`).join('');
+}
+
+function renderFeatSel() {
+  const prods = CLOUD_DATA.products || [];
+  const sel = document.getElementById('feat-sel'); if (!sel) return;
+  sel.innerHTML = prods.length === 0
+    ? '<div style="text-align:center;padding:16px;color:var(--muted);font-size:12px">Pehle Products tab se add karein</div>'
+    : prods.map(p => `<div class="feat-check-item">
+        <input type="checkbox" ${p.featured ? 'checked' : ''} data-fid="${p.id}">
+        <span style="font-size:18px">${p.emoji}</span>
+        <div><div style="font-size:13px;font-weight:700">${p.name}</div>
+        <div style="font-size:10px;color:var(--muted);font-family:JetBrains Mono,monospace">${p.cat} • ${p.price}</div></div>
+      </div>`).join('');
+}
+
+function saveFeat() {
+  const checked = [...document.querySelectorAll('[data-fid]:checked')].map(el => parseInt(el.dataset.fid));
+  if (checked.length > 4) { showToast('❌ Max 4!', true); return; }
+  (CLOUD_DATA.products || []).forEach(p => p.featured = checked.includes(p.id));
+  saveToCloud(); renderAll(); showToast('⭐ Featured Cloud mein save!');
+}
+
+// SETTINGS
+function loadSettings() {
+  const s = CLOUD_DATA.settings || {};
+  const m = { telegram: 's-tg', whatsapp: 's-wa', ticker: 's-ticker', members: 's-members', affid: 's-affid' };
+  Object.entries(m).forEach(([k, id]) => { const el = document.getElementById(id); if (el) el.value = s[k] || ''; });
+}
+
+function saveSettings() {
+  const s = CLOUD_DATA.settings || {};
+  const m = { telegram: 's-tg', whatsapp: 's-wa', ticker: 's-ticker', members: 's-members', affid: 's-affid' };
+  Object.entries(m).forEach(([k, id]) => { const el = document.getElementById(id); if (el && el.value.trim()) s[k] = el.value.trim(); });
+  CLOUD_DATA.settings = s;
+  saveToCloud(); renderAll(); showToast('💾 Settings Cloud mein save!');
+}
+
+// PASSWORD
+function changePass() {
+  const curr = document.getElementById('cp-curr').value;
+  const nw = document.getElementById('cp-new').value;
+  const conf = document.getElementById('cp-conf').value;
+  if (curr !== (CLOUD_DATA.settings.password || 'AmriteshDeals@9199')) { showToast('❌ Current password गलत!', true); return; }
+  if (!nw || nw.length < 8) { showToast('❌ Min 8 characters!', true); return; }
+  if (nw !== conf) { showToast('❌ Match नहीं!', true); return; }
+  const strong = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@!#$%^&*]).{8,}$/;
+  if (!strong.test(nw)) { showToast('⚠ Capital+small+number+symbol!', true); return; }
+  CLOUD_DATA.settings.password = nw;
+  saveToCloud();
+  ['cp-curr', 'cp-new', 'cp-conf'].forEach(id => document.getElementById(id).value = '');
+  showToast('🔐 Password Cloud mein save! Kisi bhi device se kaam karega!');
+}
+
+// INIT
+window.addEventListener('DOMContentLoaded', () => { loadFromCloud(); });
+</script>
+</body>
+</html>
